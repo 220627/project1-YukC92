@@ -1,6 +1,7 @@
 package com.revature.models;
 
 import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Timestamp;
 
 public class Reimbursement {
@@ -10,12 +11,19 @@ public class Reimbursement {
 	private Timestamp reimb_sumitted;
 	private Timestamp reimb_resolved;
 	private String reimb_description;
-	private InputStream reimb_recipt;
+	private InputStream reimb_receipt;
 	private User reimb_author;
 	private User reimb_resolver;
 	private Status reimb_status;
 	private Type reimb_type;
 	
+	private int reimb_author_id;
+	private int reimb_resolver_id;
+	private int reimb_status_id;
+	private int reimb_type_id;
+
+
+
 	public Reimbursement(int reimb_id, int reimb_amount, Timestamp reimb_sumitted, Timestamp reimb_resolved,
 			String reimb_description, InputStream reimb_recipt, User reimb_author, User reimb_resolver,
 			Status reimb_status, Type reimb_type) {
@@ -25,7 +33,7 @@ public class Reimbursement {
 		this.reimb_sumitted = reimb_sumitted;
 		this.reimb_resolved = reimb_resolved;
 		this.reimb_description = reimb_description;
-		this.reimb_recipt = reimb_recipt;
+		this.reimb_receipt = reimb_receipt;
 		this.reimb_author = reimb_author;
 		this.reimb_resolver = reimb_resolver;
 		this.reimb_status = reimb_status;
@@ -40,11 +48,27 @@ public class Reimbursement {
 		this.reimb_status = reimb_status;
 	}
 	
+	public Reimbursement(int reimb_id, int reimb_amount, Timestamp reimb_sumitted, Timestamp reimb_resolved,
+			String reimb_description, InputStream reimb_receipt, int reimb_author_id, int reimb_resolver_id,
+			int reimb_status_id, int reimb_type_id) {
+		super();
+		this.reimb_id = reimb_id;
+		this.reimb_amount = reimb_amount;
+		this.reimb_sumitted = reimb_sumitted;
+		this.reimb_resolved = reimb_resolved;
+		this.reimb_description = reimb_description;
+		this.reimb_receipt = reimb_receipt;
+		this.reimb_author_id = reimb_author_id;
+		this.reimb_resolver_id = reimb_resolver_id;
+		this.reimb_status_id = reimb_status_id;
+		this.reimb_type_id = reimb_type_id;
+	}
+
 	@Override
 	public String toString() {
 		return "Reimbursement [reimb_id=" + reimb_id + ", reimb_amount=" + reimb_amount + ", reimb_sumitted="
 				+ reimb_sumitted + ", reimb_resolved=" + reimb_resolved + ", reimb_description=" + reimb_description
-				+ ", reimb_recipt=" + reimb_recipt + ", reimb_author=" + reimb_author + ", reimb_resolver="
+				+ ", reimb_recipt=" + reimb_receipt + ", reimb_author=" + reimb_author + ", reimb_resolver="
 				+ reimb_resolver + ", reimb_status=" + reimb_status + ", reimb_type=" + reimb_type + "]";
 	}
 
@@ -88,13 +112,6 @@ public class Reimbursement {
 		this.reimb_description = reimb_description;
 	}
 
-	public InputStream getReimb_recipt() {
-		return reimb_recipt;
-	}
-
-	public void setReimb_recipt(InputStream reimb_recipt) {
-		this.reimb_recipt = reimb_recipt;
-	}
 
 	public User getReimb_author() {
 		return reimb_author;
@@ -127,6 +144,47 @@ public class Reimbursement {
 	public void setReimb_type(Type reimb_type) {
 		this.reimb_type = reimb_type;
 	}
+
+	public int getReimb_author_id() {
+		return reimb_author_id;
+	}
+	
+	public void setReimb_author_id(int reimb_author_id) {
+		this.reimb_author_id = reimb_author_id;
+	}
+	
+	public int getReimb_resolver_id() {
+		return reimb_resolver_id;
+	}
+	
+	public void setReimb_resolver_id(int reimb_resolver_id) {
+		this.reimb_resolver_id = reimb_resolver_id;
+	}
+	
+	public int getReimb_status_id() {
+		return reimb_status_id;
+	}
+	
+	public void setReimb_status_id(int reimb_status_id) {
+		this.reimb_status_id = reimb_status_id;
+	}
+	
+	public int getReimb_type_id() {
+		return reimb_type_id;
+	}
+	
+	public void setReimb_type_id(int reimb_type_id) {
+		this.reimb_type_id = reimb_type_id;
+	}
+
+	public InputStream getReimb_receipt() {
+		return reimb_receipt;
+	}
+
+	public void setReimb_receipt(InputStream reimb_receipt) {
+		this.reimb_receipt = reimb_receipt;
+	}
+	
 
 	
 	

@@ -2,44 +2,41 @@ package com.revature.models;
 
 public class Role {
 
-	private int user_role_id;
-	private String user_role;
+	private int role_id;
+	private String role_title;
 	
 	public Role() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Role(int user_role_id, String user_role) {
+	public Role(int role_id, String role_title) {
 		super();
-		this.user_role_id = user_role_id;
-		this.user_role = user_role;
+		this.role_id = role_id;
+		this.role_title = role_title;
 	}
 
-	public Role(String user_role) {
-		super();
-		this.user_role = user_role;
+	public int getRole_id() {
+		return role_id;
+	}
+
+	public void setRole_id(int role_id) {
+		this.role_id = role_id;
+	}
+
+	public String getRole_title() {
+		return role_title;
+	}
+
+	public void setRole_title(String role_title) {
+		this.role_title = role_title;
 	}
 
 	@Override
 	public String toString() {
-		return "Role [user_role_id=" + user_role_id + ", user_role=" + user_role + "]";
+		return "Role [role_id=" + role_id + ", role_title=" + role_title + "]";
 	}
 
-	public int getUser_role_id() {
-		return user_role_id;
-	}
-
-	public void setUser_role_id(int user_role_id) {
-		this.user_role_id = user_role_id;
-	}
-
-	public String getUser_role() {
-		return user_role;
-	}
-
-	public void setUser_role(String user_role) {
-		this.user_role = user_role;
-	}
+	
 	
 }

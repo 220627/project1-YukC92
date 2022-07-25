@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.revature.models.Reimbursement;
 import com.revature.models.User;
 
-public interface ReimbusementDAOInterface {
+public interface ReimbursementDAOInterface {
 
 	boolean insertReimbursement(Reimbursement reimbursement);
 	
