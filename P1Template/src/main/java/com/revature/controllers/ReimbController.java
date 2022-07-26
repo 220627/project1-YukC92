@@ -139,12 +139,5 @@ public class ReimbController {
 		}
 		
 	};
-//	boolean deleteReimbursement(int reimb_id);
-//	
-//	ArrayList<Reimbursement> getReimbursementsByAuthor();
-//	
-//	ArrayList<Reimbursement> getReimbursementsByResolver();
-//	
-//	boolean updateReimbursementStatus(Reimbursement reimbursement);
-//	
+	
 }
