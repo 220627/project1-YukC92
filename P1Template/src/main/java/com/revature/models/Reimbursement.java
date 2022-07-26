@@ -25,7 +25,7 @@ public class Reimbursement {
 
 
 	public Reimbursement(int reimb_id, int reimb_amount, Timestamp reimb_sumitted, Timestamp reimb_resolved,
-			String reimb_description, InputStream reimb_recipt, User reimb_author, User reimb_resolver,
+			String reimb_description, InputStream reimb_receipt, User reimb_author, User reimb_resolver,
 			Status reimb_status, Type reimb_type) {
 		super();
 		this.reimb_id = reimb_id;

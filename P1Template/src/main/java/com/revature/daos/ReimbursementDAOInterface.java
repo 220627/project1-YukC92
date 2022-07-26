@@ -13,8 +13,10 @@ public interface ReimbursementDAOInterface {
 	
 	boolean deleteReimbursement(int reimb_id);
 	
-	ArrayList<Reimbursement> getReimbursementsByUser(User user, int role);
-
+	ArrayList<Reimbursement> getReimbursementsByAuthor();
+	
+	ArrayList<Reimbursement> getReimbursementsByResolver();
+	
 	boolean updateReimbursementStatus(Reimbursement reimbursement);
 	
 }
