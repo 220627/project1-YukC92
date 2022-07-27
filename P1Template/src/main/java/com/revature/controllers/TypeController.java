@@ -34,19 +34,19 @@ public class TypeController {
 	};
 	
 	public Handler getTypeHandler = (ctx) -> {
+			
+		ArrayList<Type> types = tDAO.getTypes();
 		
-		if (AuthController.ses != null) {
+		Gson gson = new Gson();
+		
+		String JSONTypes = gson.toJson(types);
+		
+		ctx.result(JSONTypes);
 			
-			ArrayList<Type> types = tDAO.getTypes();
-			
-			Gson gson = new Gson();
-			
-			String JSONTypes = gson.toJson(types);
-			
-			ctx.result(JSONTypes);
-			
-			ctx.status(200);
+		if (tDAO.getTypes() != null) {	
 
+			ctx.status(200);
+			
 		} else {
 			
 			ctx.result("You haven't logged in yet!");

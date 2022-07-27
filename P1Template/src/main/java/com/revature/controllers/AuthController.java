@@ -13,7 +13,7 @@ public class AuthController {
 
 	AuthService as = new AuthService();
 	
-	public static HttpSession ses;
+	public HttpSession ses;
 	
 	
 	public Handler loginHandler = (ctx) -> {

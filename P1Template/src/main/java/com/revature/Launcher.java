@@ -33,7 +33,26 @@ public class Launcher {
 		
 		UserController uc = new UserController();
 		
-		
+		if (ac.ses != null) {
+			
+			app.get("/reimbursement", rec.getReimbusementsHandler);
+			
+			app.get("/reimbursement/:username", rec.getReimbusementsByAuthorHandler);
+			
+			app.post("/reimbursement", rec.insertReimbursementHandler);
+			
+			app.put("/reimbursement/:reimb_id", rec.updateReimbursementStatusHandler);
+			
+			app.delete("reimbursement/:reimb_id", rec.deleteReimbursementHandler);
+			
+		} else {
+			
+			app.post("/login", ac.loginHandler);
+			
+			app.post("/signup", uc.insertUserHandler);
+			
+			
+		}
 		
 		//Welcome to P1! 
 		

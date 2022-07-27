@@ -33,16 +33,16 @@ public class ReimbController {
 	};
 	
 	public Handler getReimbusementsHandler = (ctx) -> {
+				
+		ArrayList<Reimbursement> reimbursements = reDAO.getAllReimbursements();
 		
-		if (AuthController.ses != null) {
+		Gson gson = new Gson();
 		
-			ArrayList<Reimbursement> reimbursements = reDAO.getAllReimbursements();
-			
-			Gson gson = new Gson();
-			
-			String JSONReimb = gson.toJson(reimbursements);
-			
-			ctx.result(JSONReimb);
+		String JSONReimb = gson.toJson(reimbursements);
+		
+		ctx.result(JSONReimb);
+	
+		if (reDAO.getAllReimbursements() != null) {
 		
 			ctx.status(202);
 		
@@ -74,16 +74,16 @@ public class ReimbController {
 	
 	public Handler getReimbusementsByAuthorHandler = (ctx) -> {
 		
-		if (AuthController.ses != null) {
+		ArrayList<Reimbursement> auth_reimb = reDAO.getReimbursementsByAuthor();
 		
-			ArrayList<Reimbursement> auth_reimb = reDAO.getReimbursementsByAuthor();
-			
-			Gson gson = new Gson();
-			
-			String JSONAuthReimb = gson.toJson(auth_reimb);
-			
-			ctx.result(JSONAuthReimb);
+		Gson gson = new Gson();
 		
+		String JSONAuthReimb = gson.toJson(auth_reimb);
+		
+		ctx.result(JSONAuthReimb);
+		
+		if (reDAO.getReimbursementsByAuthor() != null) {
+			
 			ctx.status(202);
 		
 		} else {
@@ -98,16 +98,17 @@ public class ReimbController {
 	
 	public Handler getReimbusementsByResolverHandler = (ctx) -> {
 		
-		if (AuthController.ses != null) {
 		
-			ArrayList<Reimbursement> reso_reimb = reDAO.getReimbursementsByResolver();
-			
-			Gson gson = new Gson();
-			
-			String JSONResolverReimb = gson.toJson(reso_reimb);
-			
-			ctx.result(JSONResolverReimb);
+		ArrayList<Reimbursement> reso_reimb = reDAO.getReimbursementsByResolver();
 		
+		Gson gson = new Gson();
+		
+		String JSONResolverReimb = gson.toJson(reso_reimb);
+		
+		ctx.result(JSONResolverReimb);
+	
+		if (reDAO.getReimbursementsByResolver() != null) {
+			
 			ctx.status(202);
 		
 		} else {

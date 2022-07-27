@@ -13,18 +13,20 @@ public class StatusController {
 	StatusDAO sDAO = new StatusDAO();
 	
 	public Handler getStatusHandler = (ctx) -> {
+
+			
+		ArrayList<Status> status = sDAO.getStatus();
 		
-		if (AuthController.ses != null) {
+		Gson gson = new Gson();
+		
+		String JSONStatus = gson.toJson(status);
+		
+		ctx.result(JSONStatus);
 			
-			ArrayList<Status> status = sDAO.getStatus();
-			
-			Gson gson = new Gson();
-			
-			String JSONStatus = gson.toJson(status);
-			
-			ctx.result(JSONStatus);
-			
+		if(sDAO.getStatus() != null) {
+
 			ctx.status(200);
+			
 			
 		} else {
 			
