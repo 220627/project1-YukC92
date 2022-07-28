@@ -3,7 +3,6 @@ package com.revature.daos;
 import java.util.ArrayList;
 
 import com.revature.models.Reimbursement;
-import com.revature.models.User;
 
 public interface ReimbursementDAOInterface {
 
@@ -15,8 +14,8 @@ public interface ReimbursementDAOInterface {
 	
 	ArrayList<Reimbursement> getReimbursementsByAuthor();
 	
-	ArrayList<Reimbursement> getReimbursementsByResolver();
+	boolean approveReimbursement(Reimbursement reimbursement);
 	
-	boolean updateReimbursementStatus(Reimbursement reimbursement);
+	boolean denyReimbursement(Reimbursement reimbursement);
 	
 }

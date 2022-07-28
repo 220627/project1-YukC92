@@ -41,5 +41,19 @@ public class AuthController {
 		
 	};
 	
-	
+	public Handler logoutHandler = (ctx) -> {
+		
+		ses = ctx.req.getSession();
+		
+		if (ses != null) {
+			
+			ses = ctx.req.getSession(false);
+		
+			ctx.status(202);
+		} else {
+			
+			ctx.status(401);
+		}
+		
+	};
 }

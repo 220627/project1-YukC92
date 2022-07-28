@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.revature.models.Role;
 import com.revature.models.User;
@@ -66,10 +68,8 @@ public class UserDAO implements UserDAOInterface{
 				
 				int roleFK = rs.getInt("user_role_id_fk");
 				
-				//Instantiate a RoleDAO as we can use getRoleById
 				RoleDAO rDAO = new RoleDAO();
 				
-				//get a role object using the int that we populate with rs.getInt()!!!
 				Role r = rDAO.getRoleById(roleFK);
 				
 				u.setRole(r);
@@ -85,5 +85,54 @@ public class UserDAO implements UserDAOInterface{
 		
 		return null;
 	}
+
+	@Override
+	public ArrayList<User> getAllUsers() {
+		
+		ArrayList<User> usersList = new ArrayList<>();
+		
+		String sql = "select * from ERS_users where user_role_id_fk = 2"; //employee role_id in ERS_roles
+		
+		try(Connection conn = ConnectionUtil.getConnection()) {
+			
+			Statement s = conn.createStatement();
+			
+			ResultSet rs = s.executeQuery(sql);
+			
+			while(rs.next()) {
+				
+				User u = new User(
+							rs.getInt("user_id"),
+							rs.getString("username"),
+							rs.getString("password"),
+							rs.getString("first_name"),
+							rs.getString("last_name"),
+							rs.getString("user_email"),
+							null
+							);
+						
+				int roleFK = rs.getInt("user_role_id_fk");
+				
+				RoleDAO rDAO = new RoleDAO();
+				
+				Role r = rDAO.getRoleById(roleFK);
+				
+				u.setRole(r);
+				
+				usersList.add(u);
+				
+				return usersList;
+			}
+			
+		} catch (SQLException e) {
+			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

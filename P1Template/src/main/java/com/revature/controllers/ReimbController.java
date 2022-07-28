@@ -48,7 +48,7 @@ public class ReimbController {
 		
 		} else {
 			
-			ctx.status(401);
+			ctx.status(406);
 			
 		}
 		
@@ -72,7 +72,7 @@ public class ReimbController {
 		
 	};
 	
-	public Handler getReimbusementsByAuthorHandler = (ctx) -> {
+	public Handler getReimbursementsByAuthorHandler = (ctx) -> {
 		
 		ArrayList<Reimbursement> auth_reimb = reDAO.getReimbursementsByAuthor();
 		
@@ -88,7 +88,7 @@ public class ReimbController {
 		
 		} else {
 			
-			ctx.status(401);
+			ctx.status(406);
 			
 		}
 		
@@ -96,40 +96,35 @@ public class ReimbController {
 	
 	};
 	
-	public Handler getReimbusementsByResolverHandler = (ctx) -> {
-		
-		
-		ArrayList<Reimbursement> reso_reimb = reDAO.getReimbursementsByResolver();
+	public Handler approveReimbursementHandler = (ctx) -> {
+
+		String body = ctx.body();
 		
 		Gson gson = new Gson();
 		
-		String JSONResolverReimb = gson.toJson(reso_reimb);
+		Reimbursement appReimb = gson.fromJson(body, Reimbursement.class);
 		
-		ctx.result(JSONResolverReimb);
-	
-		if (reDAO.getReimbursementsByResolver() != null) {
+		if (reDAO.approveReimbursement(appReimb)) {
 			
 			ctx.status(202);
-		
+			
 		} else {
 			
-			ctx.status(401);
+			ctx.status(406);
 			
 		}
 		
-	
-	
 	};
 	
-	public Handler updateReimbursementStatusHandler = (ctx) -> {
+	public Handler denyReimbursementHandler = (ctx) -> {
 		
 		String body = ctx.body();
 		
 		Gson gson = new Gson();
 		
-		Reimbursement newReStatus = gson.fromJson(body, Reimbursement.class);
+		Reimbursement denyReimb = gson.fromJson(body, Reimbursement.class);
 		
-		if (reDAO.updateReimbursementStatus(newReStatus)) {
+		if (reDAO.denyReimbursement(denyReimb)) {
 			
 			ctx.status(202);
 			
@@ -142,3 +137,4 @@ public class ReimbController {
 	};
 	
 }
+
