@@ -15,7 +15,7 @@ public class RoleDAO implements RoleDAOInterface {
 		// TODO Auto-generated method stub
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "insert into ERS_roles (role_title) values (?)";
+			String sql = "insert into roles (role_title) values (?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			

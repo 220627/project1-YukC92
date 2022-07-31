@@ -17,7 +17,7 @@ public class StatusDAO implements StatusDAOInterface {
 		
 		try(Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "select * from ERS_reimb_status where status_id = ?";
+			String sql = "select * from status where status_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -29,7 +29,7 @@ public class StatusDAO implements StatusDAOInterface {
 				
 				Status status = new Status(
 						rs.getInt("status_id"),
-						rs.getString("reimb_status")
+						rs.getString("status")
 						);
 						
 				return status;
@@ -48,7 +48,7 @@ public class StatusDAO implements StatusDAOInterface {
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "select * from ERS_reimb_status";
+			String sql = "select * from status";
 			
 			Statement s = conn.createStatement();
 			
@@ -60,7 +60,7 @@ public class StatusDAO implements StatusDAOInterface {
 				
 				Status status = new Status(
 						rs.getInt("status_id"),
-						rs.getString("reimb_status")
+						rs.getString("status")
 						);
 				
 				statusList.add(status);

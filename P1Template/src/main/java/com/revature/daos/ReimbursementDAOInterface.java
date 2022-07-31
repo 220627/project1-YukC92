@@ -12,7 +12,7 @@ public interface ReimbursementDAOInterface {
 	
 	boolean deleteReimbursement(int reimb_id);
 	
-	ArrayList<Reimbursement> getReimbursementsByAuthor();
+	ArrayList<Reimbursement> getReimbursementsByAuthor(int author);
 	
 	boolean approveReimbursement(Reimbursement reimbursement);
 	

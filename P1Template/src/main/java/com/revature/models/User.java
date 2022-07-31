@@ -9,7 +9,7 @@ public class User {
 	private String last_name;
 	private String user_email;
 	private Role role;
-	private int user_role_id_fk;
+	private int role_id_fk;
 
 	public User() {
 		super();
@@ -36,7 +36,7 @@ public class User {
 	}
 
 	public User(int user_id, String username, String password, String first_name, String last_name, String user_email,
-			int user_role_id_fk) {
+			int role_id_fk) {
 		super();
 		this.user_id = user_id;
 		this.username = username;
@@ -44,7 +44,7 @@ public class User {
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.user_email = user_email;
-		this.user_role_id_fk = user_role_id_fk;
+		this.role_id_fk = role_id_fk;
 	}
 
 	public User(String username, String password, String first_name, String last_name, String user_email, Role role) {
@@ -114,18 +114,18 @@ public class User {
 	}
 
 	public int getUser_role_id_fk() {
-		return user_role_id_fk;
+		return role_id_fk;
 	}
 
-	public void setUser_role_id_fk(int user_role_id_fk) {
-		this.user_role_id_fk = user_role_id_fk;
+	public void setUser_role_id_fk(int role_id_fk) {
+		this.role_id_fk = role_id_fk;
 	}
 
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", username=" + username + ", password=" + password + ", first_name="
 				+ first_name + ", last_name=" + last_name + ", user_email=" + user_email + ", role=" + role
-				+ ", user_role_id_fk=" + user_role_id_fk + "]";
+				+ ", user_role_id_fk=" + role_id_fk + "]";
 	}
 	
 	

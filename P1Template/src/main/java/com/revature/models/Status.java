@@ -3,12 +3,12 @@ package com.revature.models;
 public class Status {
 
 	private int status_id;
-	private String reimb_status;
+	private String status;
 	
-	public Status(int status_id, String reimb_status) {
+	public Status(int status_id, String status) {
 		super();
 		this.status_id = status_id;
-		this.reimb_status = reimb_status;
+		this.status = status;
 	}
 
 	public int getStatus_id() {
@@ -19,17 +19,17 @@ public class Status {
 		this.status_id = status_id;
 	}
 
-	public String getReimb_status() {
-		return reimb_status;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setReimb_status(String reimb_status) {
-		this.reimb_status = reimb_status;
+	public void setStatus(String reimb_status) {
+		this.status = reimb_status;
 	}
 
 	@Override
 	public String toString() {
-		return "Status [status_id=" + status_id + ", reimb_status=" + reimb_status + "]";
+		return "Status [status_id=" + status_id + ", status=" + status + "]";
 	}
 	
 	

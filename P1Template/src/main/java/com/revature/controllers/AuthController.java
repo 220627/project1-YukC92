@@ -13,7 +13,7 @@ public class AuthController {
 
 	AuthService as = new AuthService();
 	
-	public HttpSession ses;
+	public static HttpSession ses;
 	
 	
 	public Handler loginHandler = (ctx) -> {
@@ -28,14 +28,23 @@ public class AuthController {
 		
 		if (user != null) {
 			
+//			System.out.println(ctx.req);
+			
 			ses = ctx.req.getSession();
 			
+//			System.out.println(ses);
+			
+			ses.setAttribute("userId", user.getUser_id());
+			ses.setAttribute("userRole", user.getRole().getRole_id());
+		    
 			String userJson = gson.toJson(user);
 			
 			ctx.result(userJson);
 			ctx.status(202);
-			
+
 		} else {
+			
+			ctx.result("User Failed to login!");
 			ctx.status(401);
 		}
 		

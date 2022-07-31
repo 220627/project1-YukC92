@@ -18,7 +18,7 @@ public class UserDAO implements UserDAOInterface{
 		// TODO Auto-generated method stub
 		try(Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "insert into ERS_users (username, password, first_name, last_name, user_email, user_role_id_fk) values (?,?,?,?,?,?)";
+			String sql = "insert into users (username, password, first_name, last_name, user_email, role_id_fk) values (?,?,?,?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -46,7 +46,7 @@ public class UserDAO implements UserDAOInterface{
 		// TODO Auto-generated method stub
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "select * from ERS_users where user_id = ?";
+			String sql = "select * from users where user_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -66,7 +66,7 @@ public class UserDAO implements UserDAOInterface{
 						null
 						);
 				
-				int roleFK = rs.getInt("user_role_id_fk");
+				int roleFK = rs.getInt("role_id_fk");
 				
 				RoleDAO rDAO = new RoleDAO();
 				
@@ -91,7 +91,7 @@ public class UserDAO implements UserDAOInterface{
 		
 		ArrayList<User> usersList = new ArrayList<>();
 		
-		String sql = "select * from ERS_users where user_role_id_fk = 2"; //employee role_id in ERS_roles
+		String sql = "select * from users where role_id_fk = 2"; //employee role_id in ERS_roles
 		
 		try(Connection conn = ConnectionUtil.getConnection()) {
 			
@@ -111,7 +111,7 @@ public class UserDAO implements UserDAOInterface{
 							null
 							);
 						
-				int roleFK = rs.getInt("user_role_id_fk");
+				int roleFK = rs.getInt("role_id_fk");
 				
 				RoleDAO rDAO = new RoleDAO();
 				

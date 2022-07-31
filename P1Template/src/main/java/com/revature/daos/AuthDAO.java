@@ -15,7 +15,7 @@ public class AuthDAO {
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "select * from ERS_users where username = ? and password = ?";
+			String sql = "select * from users where username = ? and password = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -35,7 +35,7 @@ public class AuthDAO {
 						null
 						);
 				
-				int user_role_id_fk = rs.getInt("user_role_id_fk");
+				int user_role_id_fk = rs.getInt("role_id_fk");
 				
 				RoleDAO rDAO = new RoleDAO();
 				
@@ -47,6 +47,7 @@ public class AuthDAO {
 			}
 			
 		} catch (SQLException e) {
+			System.out.println("Login Failed");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

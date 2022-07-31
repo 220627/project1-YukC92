@@ -20,14 +20,14 @@ public class ConnectionUtil {
 			System.out.println("problem occurred locating driver");
 		}
 		
-		
 		//Use our database credentials to establish a database connection
 		//Hardcoded for now... BAD! we'll change this later to hide them in the Environment Variables
 		
 		//I'm going to put the credentials in Strings, and use those strings in a method that gets connections
-		String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=ERS_Reimbursement";
-		String username = "postgres";
-		String password = "password";
+		//for the url, the only thing that should change for your own projects is the schema name (which is Krusty_krab here)
+		String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=ers_reimbursement";
+		String username = "postgres"; //this should never change
+		String password = "password"; //this should be the password you use to make a connection in PostgreSQL
 		
 		//This return statement is what returns out actual database Connection object
 		//Note how this getConnection() method has a return type of Connection

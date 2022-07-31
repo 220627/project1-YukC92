@@ -20,20 +20,20 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "insert into ERS_reimbursements (reimb_amount, reimb_sumitted, reimb_resolved, reimb_description, reimb_recipt, reimb_author, reimb_resolver, reimb_status, reimb_type)" +
+			String sql = "insert into reimbursements (amount, sumitted, resolved, description, recipt, author, resolver, status, type)" +
 						"values (?,?,?,?,?,?,?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, reimbursement.getReimb_amount());
-			ps.setTimestamp(2, reimbursement.getReimb_sumitted());
-			ps.setTimestamp(3, reimbursement.getReimb_resolved());
-			ps.setString(4, reimbursement.getReimb_description());
-			ps.setBinaryStream(5, reimbursement.getReimb_receipt());
-			ps.setInt(6, reimbursement.getReimb_author().getUser_id());
-			ps.setInt(7, reimbursement.getReimb_resolver().getUser_id());
-			ps.setInt(8, reimbursement.getReimb_status().getStatus_id());
-			ps.setInt(9, reimbursement.getReimb_type().getType_id());
+			ps.setInt(1, reimbursement.getAmount());
+			ps.setTimestamp(2, reimbursement.getSubmitted());
+			ps.setTimestamp(3, reimbursement.getResolved());
+			ps.setString(4, reimbursement.getDescription());
+			ps.setBinaryStream(5, reimbursement.getReceipt());
+			ps.setInt(6, reimbursement.getAuthor().getUser_id());
+			ps.setInt(7, reimbursement.getResolver().getUser_id());
+			ps.setInt(8, reimbursement.getStatus().getStatus_id());
+			ps.setInt(9, reimbursement.getType().getType_id());
 			
 			ps.executeUpdate();
 			
@@ -52,11 +52,11 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "select * from ERS_reimbursements";
+			String sql = "select * from reimbursements inner join users on user_id = author";
 			
-			Statement s = conn.createStatement();
-			
-			ResultSet rs = s.executeQuery(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
+						
+			ResultSet rs = ps.executeQuery();
 			
 			ArrayList<Reimbursement> reimbList = new ArrayList<>();
 			
@@ -64,21 +64,21 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 				
 				Reimbursement r = new Reimbursement(
 						rs.getInt("reimb_id"),
-						rs.getInt("reimb_amount"),
-						rs.getTimestamp("reimb_summited"),
-						rs.getTimestamp("reimb_resolved"),
-						rs.getString("reimb_description"),
-						rs.getBinaryStream("reimb_receipt"),
+						rs.getInt("amount"),
+						rs.getTimestamp("submitted"),
+						rs.getTimestamp("resolved"),
+						rs.getString("description"),
+						rs.getBinaryStream("receipt"),
 						null,
 						null,
 						null,
 						null
 						);
 				
-				int reimb_author_id = rs.getInt("reimb_author_id");
-				int reimb_resolver_id = rs.getInt("reimb_resolver_id");
-				int reimb_status_id = rs.getInt("reimb_status_id");
-				int reimb_type_id = rs.getInt("reimb_type_id");
+				int reimb_author_id = rs.getInt("author");
+				int reimb_resolver_id = rs.getInt("resolver");
+				int reimb_status_id = rs.getInt("status_fk");
+				int reimb_type_id = rs.getInt("type_fk");
 				
 				UserDAO uDAO = new UserDAO();
 				
@@ -86,21 +86,21 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 				
 				User resolver = uDAO.getUserById(reimb_resolver_id);
 				
-				r.setReimb_author(author);
+				r.setAuthor(author);
 				
-				r.setReimb_resolver(resolver);
+				r.setResolver(resolver);
 				
 				StatusDAO sDAO = new StatusDAO();
 				
 				Status status = sDAO.getStatusById(reimb_status_id);
 				
-				r.setReimb_status(status);
+				r.setStatus(status);
 				
 				TypeDAO tDAO = new TypeDAO();
 				
 				Type type = tDAO.getTypeById(reimb_type_id);
 				
-				r.setReimb_type(type);
+				r.setType(type);
 				
 				reimbList.add(r);
 				
@@ -121,7 +121,7 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 		// TODO Auto-generated method stub
 		try(Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "delete from ERS_reimbusements where reimb_id = ?";
+			String sql = "delete from reimbusements where reimb_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -140,15 +140,17 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 	}
 
 	@Override
-	public ArrayList<Reimbursement> getReimbursementsByAuthor() {
+	public ArrayList<Reimbursement> getReimbursementsByAuthor(int author) {
 		// TODO Auto-generated method stub
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "select * from ERS_Reimbursement inner join ERS_users on user_id = reimb_author";
+			String sql = "select * from reimbursements inner join users on user_id = author where author = ?";
 			
-					Statement s = conn.createStatement();
-			
-					ResultSet rs = s.executeQuery(sql);
+					PreparedStatement ps = conn.prepareStatement(sql);
+					
+					ps.setInt(1, author);
+								
+					ResultSet rs = ps.executeQuery();
 					
 					ArrayList<Reimbursement> reimbList = new ArrayList<>();
 					
@@ -156,25 +158,25 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 						
 						Reimbursement r = new Reimbursement(
 								rs.getInt("reimb_id"),
-								rs.getInt("reimb_amount"),
-								rs.getTimestamp("reimb_summited"),
-								rs.getTimestamp("reimb_resolved"),
-								rs.getString("reimb_description"),
-								rs.getBinaryStream("reimb_receipt"),
+								rs.getInt("amount"),
+								rs.getTimestamp("submitted"),
+								rs.getTimestamp("resolved"),
+								rs.getString("description"),
+								rs.getBinaryStream("receipt"),
 								null,
 								null,
 								null,
 								null
 								);
 						
-						int reimb_author_id = rs.getInt("reimb_author_id");
-						int reimb_resolver_id = rs.getInt("reimb_resolver_id");
-						int reimb_status_id = rs.getInt("reimb_status_id");
-						int reimb_type_id = rs.getInt("reimb_type_id");
+						int reimb_author_id = rs.getInt("author");
+						int reimb_resolver_id = rs.getInt("resolver");
+						int reimb_status_id = rs.getInt("status_fk");
+						int reimb_type_id = rs.getInt("type_fk");
 						
 						UserDAO uDAO = new UserDAO();
 						
-						User author = uDAO.getUserById(reimb_author_id);
+						User uauthor = uDAO.getUserById(reimb_author_id);
 						
 						User resolver = uDAO.getUserById(reimb_resolver_id);
 						
@@ -182,17 +184,17 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 						
 						Status status = sDAO.getStatusById(reimb_status_id);
 						
-						r.setReimb_author(author);
+						r.setAuthor(uauthor);
 						
-						r.setReimb_resolver(resolver);
+						r.setResolver(resolver);
 						
-						r.setReimb_status(status);
+						r.setStatus(status);
 						
 						TypeDAO tDAO = new TypeDAO();
 						
 						Type type = tDAO.getTypeById(reimb_type_id);
 						
-						r.setReimb_type(type);
+						r.setType(type);
 						
 						reimbList.add(r);
 						
@@ -214,12 +216,12 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "update ERS_reimbursements set reimb_resolved = ?, reimb_resolver = ?, reimb_status_fk = 2 where reimb_id = ?";
+			String sql = "update reimbursements set resolved = ?, resolver = ?, status_fk = 2 where reimb_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
-			ps.setTimestamp(1, reimbursement.getReimb_resolved());
-			ps.setInt(2, reimbursement.getReimb_resolver().getUser_id());
+			ps.setTimestamp(1, reimbursement.getResolved());
+			ps.setInt(2, reimbursement.getResolver().getUser_id());
 			ps.setInt(4, reimbursement.getReimb_id());
 			
 			ps.executeUpdate();
@@ -240,12 +242,12 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "update ERS_reimbursements set reimb_resolved = ?, reimb_resolver = ?, reimb_status_fk = 3 where reimb_id = ?";
+			String sql = "update reimbursements set resolved = ?, resolver = ?, status_fk = 3 where reimb_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
-			ps.setTimestamp(1, reimbursement.getReimb_resolved());
-			ps.setInt(2, reimbursement.getReimb_resolver().getUser_id());
+			ps.setTimestamp(1, reimbursement.getResolved());
+			ps.setInt(2, reimbursement.getResolver().getUser_id());
 			ps.setInt(4, reimbursement.getReimb_id());
 			
 			ps.executeUpdate();

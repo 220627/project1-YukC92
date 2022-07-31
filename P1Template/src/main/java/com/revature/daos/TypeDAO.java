@@ -17,15 +17,15 @@ public class TypeDAO implements TypeDAOInterface{
 		// TODO Auto-generated method stub
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "insert into ERS_reimb_types (reimb_type) values (?)";
+			String sql = "insert into types (type) values (?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
-			ps.setString(1, type.getReimb_type());
+			ps.setString(1, type.getType());
 			
 			ps.executeUpdate();
 			
-			System.out.println("Type " + type.getReimb_type() + " added!");
+			System.out.println("Type " + type.getType() + " added!");
 			
 			return true;
 			
@@ -43,7 +43,7 @@ public class TypeDAO implements TypeDAOInterface{
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "select * from ERS_reimb_types";
+			String sql = "select * from types";
 			
 			Statement s = conn.createStatement();
 			
@@ -55,7 +55,7 @@ public class TypeDAO implements TypeDAOInterface{
 				
 				Type t = new Type(
 						rs.getInt("type_id"),
-						rs.getString("reimb_type")
+						rs.getString("type")
 						);
 				
 				TypeList.add(t);
@@ -78,7 +78,7 @@ public class TypeDAO implements TypeDAOInterface{
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "select * from ERS_reimb_types where type_id = ?";
+			String sql = "select * from types where type_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
@@ -90,7 +90,7 @@ public class TypeDAO implements TypeDAOInterface{
 				
 				Type type = new Type(
 						rs.getInt("type_id"),
-						rs.getString("reimb_type")
+						rs.getString("type")
 						);
 					
 				return type;
