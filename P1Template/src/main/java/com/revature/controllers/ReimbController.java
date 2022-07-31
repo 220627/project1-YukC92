@@ -42,11 +42,13 @@ public class ReimbController {
 //			System.out.println(userRole);
 //			System.out.println(userId);
 			
+			String status = ctx.pathParam("status");
+			
 			if (userRole.equals(1)) {
 				
 				System.out.println("manager");
 				
-				ArrayList<Reimbursement> reimbursements = reDAO.getAllReimbursements();
+				ArrayList<Reimbursement> reimbursements = reDAO.getAllReimbursements(status);
 				
 				Gson gson = new Gson();
 				
@@ -76,7 +78,7 @@ public class ReimbController {
 				
 				} else {
 					
-					ctx.status(406);
+					ctx.status(401);
 				
 				}
 				
@@ -205,5 +207,43 @@ public class ReimbController {
 		
 	};
 	
+	
+	public Handler getAllReimbHandler = (ctx) -> {
+		
+		if (AuthController.ses != null) {
+			
+			Object userRole = AuthController.ses.getAttribute("userRole");
+			
+//			System.out.println(userRole);
+//			System.out.println(userId);
+			
+			if (userRole.equals(1)) {
+				
+				System.out.println("manager");
+				
+				ArrayList<Reimbursement> reimbursements = reDAO.getAllRe();
+				
+				Gson gson = new Gson();
+				
+				String JSONReimb = gson.toJson(reimbursements);
+				
+				ctx.result(JSONReimb);
+				
+				ctx.status(202);
+
+			} else {
+				
+			
+				ctx.status(406);
+			
+			}
+		}
+		
+	
+	
+	};
+	
 }
+
+
 

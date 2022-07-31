@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.revature.controllers.AuthController;
 import com.revature.models.Reimbursement;
 import com.revature.models.Status;
 import com.revature.models.Type;
@@ -48,13 +49,21 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 	}
 
 	@Override
-	public ArrayList<Reimbursement> getAllReimbursements() {
+	public ArrayList<Reimbursement> getAllReimbursements(String filter_status) {
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "select * from reimbursements inner join users on user_id = author";
+			String sql = "select * from reimbursements";
+			if (filter_status != "0") {
+				sql += " inner join users on user_id = author where status_fk = ?";
+			}
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
+
+			if (filter_status != "0") {
+				Integer status_fk = Integer.parseInt(filter_status);
+				ps.setInt(1, status_fk);
+			}
 						
 			ResultSet rs = ps.executeQuery();
 			
@@ -72,7 +81,8 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 						null,
 						null,
 						null,
-						null
+						null,
+						1
 						);
 				
 				int reimb_author_id = rs.getInt("author");
@@ -146,9 +156,9 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 			
 			String sql = "select * from reimbursements inner join users on user_id = author where author = ?";
 			
-					PreparedStatement ps = conn.prepareStatement(sql);
-					
-					ps.setInt(1, author);
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, author);
 								
 					ResultSet rs = ps.executeQuery();
 					
@@ -166,13 +176,15 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 								null,
 								null,
 								null,
-								null
+								null,
+								0
 								);
 						
 						int reimb_author_id = rs.getInt("author");
 						int reimb_resolver_id = rs.getInt("resolver");
 						int reimb_status_id = rs.getInt("status_fk");
 						int reimb_type_id = rs.getInt("type_fk");
+						
 						
 						UserDAO uDAO = new UserDAO();
 						
@@ -200,6 +212,9 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 						
 					}
 					
+					Object userRole = AuthController.ses.getAttribute("userRole");
+					
+					System.out.println("jshdkjashd");
 					return reimbList;
 					
 					
@@ -260,6 +275,78 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 		}
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public ArrayList<Reimbursement> getAllRe() {
+		
+		try (Connection conn = ConnectionUtil.getConnection()) {
+					
+			String sql = "select * from reimbursements";
+			
+			Statement s = conn.createStatement();
+			
+			ResultSet rs = s.executeQuery(sql);
+			
+			ArrayList<Reimbursement> reimbList = new ArrayList<>();
+			
+			while (rs.next()) {
+				
+				Reimbursement r = new Reimbursement(
+						rs.getInt("reimb_id"),
+						rs.getInt("amount"),
+						rs.getTimestamp("submitted"),
+						rs.getTimestamp("resolved"),
+						rs.getString("description"),
+						rs.getBinaryStream("receipt"),
+						null,
+						null,
+						null,
+						null,
+						0
+						);
+				
+				int reimb_author_id = rs.getInt("author");
+				int reimb_resolver_id = rs.getInt("resolver");
+				int reimb_status_id = rs.getInt("status_fk");
+				int reimb_type_id = rs.getInt("type_fk");
+				
+				
+				UserDAO uDAO = new UserDAO();
+				
+				User uauthor = uDAO.getUserById(reimb_author_id);
+				
+				User resolver = uDAO.getUserById(reimb_resolver_id);
+				
+				StatusDAO sDAO = new StatusDAO();
+				
+				Status status = sDAO.getStatusById(reimb_status_id);
+				
+				r.setAuthor(uauthor);
+				
+				r.setResolver(resolver);
+				
+				r.setStatus(status);
+				
+				TypeDAO tDAO = new TypeDAO();
+				
+				Type type = tDAO.getTypeById(reimb_type_id);
+				
+				r.setType(type);
+				
+				reimbList.add(r);
+				
+			}
+			
+			return reimbList;
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

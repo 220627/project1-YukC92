@@ -31,7 +31,9 @@ public class Launcher {
 		
 		app.get("/users", uc.getUsersHandler);
 		
-		app.get("/reimbursements", rec.getReimbusementsHandler);
+		app.get("/reimbursements", rec.getAllReimbHandler);
+		
+		app.get("/reimbursements/:status", rec.getReimbusementsHandler);
 		
 //		app.get("/reimbursement/:user_id", rec.getReimbursementsByAuthorHandler);
 		

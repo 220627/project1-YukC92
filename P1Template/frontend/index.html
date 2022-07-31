@@ -43,8 +43,14 @@
                 </tbody>
             </table>
 
-            <button id="getReimbButton" class="btn btn-info">Show Reimbursements</button>
-
+            <select id="status">
+                <option value="0">All</option>
+                <option value="1">Pending</option>
+                <option value="2">Approved</option>
+                <option value="3">Denied</option>
+            </select>
+            <button id="filterReimbButton" class="btn btn-info">Filter Reimbursements</button>
+            <button id="getAllReimbBtn">Get All Reimbursements</button>
 
         </div>
     </div>

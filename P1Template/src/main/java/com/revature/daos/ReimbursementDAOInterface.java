@@ -8,7 +8,9 @@ public interface ReimbursementDAOInterface {
 
 	boolean insertReimbursement(Reimbursement reimbursement);
 	
-	ArrayList<Reimbursement> getAllReimbursements();
+	ArrayList<Reimbursement> getAllReimbursements(String status);
+	
+	ArrayList<Reimbursement> getAllRe();
 	
 	boolean deleteReimbursement(int reimb_id);
 	

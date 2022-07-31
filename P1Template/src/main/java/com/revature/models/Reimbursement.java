@@ -16,12 +16,12 @@ public class Reimbursement {
 	private User resolver;
 	private Status status;
 	private Type type;
+	private int action;
 	
 	private int author_fk;
 	private int resolver_fk;
 	private int status_id_fk;
 	private int type_id_fk;
-//	private int curUserRole;
 	
 
 	public Reimbursement() {
@@ -30,7 +30,7 @@ public class Reimbursement {
 	}
 	
 	public Reimbursement(int reimb_id, int amount, Timestamp submitted, Timestamp resolved, String description,
-			InputStream receipt, User author, User resolver, Status status, Type type) {
+			InputStream receipt, User author, User resolver, Status status, Type type, int action) {
 		super();
 		this.reimb_id = reimb_id;
 		this.amount = amount;
@@ -42,7 +42,7 @@ public class Reimbursement {
 		this.resolver = resolver;
 		this.status = status;
 		this.type = type;
-//		this.curUserRole = curUserRole;
+		this.action = action;
 	}
 	
 	public Reimbursement(int reimb_id, int amount, Timestamp submitted, Timestamp resolved, String description,
@@ -60,34 +60,34 @@ public class Reimbursement {
 		this.type_id_fk = type_id_fk;
 	}
 	
-	public Reimbursement(int reimb_id, int amount, Timestamp submitted, Timestamp resolved, String description,
-			InputStream receipt, User author, Status status, Type type) {
-		super();
-		this.reimb_id = reimb_id;
-		this.amount = amount;
-		this.submitted = submitted;
-		this.resolved = resolved;
-		this.description = description;
-		this.receipt = receipt;
-		this.author = author;
-		this.status = status;
-		this.type = type;
-	}
-	
-	public Reimbursement(int reimb_id, int amount, Timestamp submitted, Timestamp resolved, String description,
-			InputStream receipt, User resolver, Status status, int resolver_fk, int status_id_fk) {
-		super();
-		this.reimb_id = reimb_id;
-		this.amount = amount;
-		this.submitted = submitted;
-		this.resolved = resolved;
-		this.description = description;
-		this.receipt = receipt;
-		this.resolver = resolver;
-		this.status = status;
-		this.resolver_fk = resolver_fk;
-		this.status_id_fk = status_id_fk;
-	}
+//	public Reimbursement(int reimb_id, int amount, Timestamp submitted, Timestamp resolved, String description,
+//			InputStream receipt, User author, Status status, Type type) {
+//		super();
+//		this.reimb_id = reimb_id;
+//		this.amount = amount;
+//		this.submitted = submitted;
+//		this.resolved = resolved;
+//		this.description = description;
+//		this.receipt = receipt;
+//		this.author = author;
+//		this.status = status;
+//		this.type = type;
+//	}
+//	
+//	public Reimbursement(int reimb_id, int amount, Timestamp submitted, Timestamp resolved, String description,
+//			InputStream receipt, User resolver, Status status, int resolver_fk, int status_id_fk) {
+//		super();
+//		this.reimb_id = reimb_id;
+//		this.amount = amount;
+//		this.submitted = submitted;
+//		this.resolved = resolved;
+//		this.description = description;
+//		this.receipt = receipt;
+//		this.resolver = resolver;
+//		this.status = status;
+//		this.resolver_fk = resolver_fk;
+//		this.status_id_fk = status_id_fk;
+//	}
 
 	public int getReimb_id() {
 		return reimb_id;
@@ -209,17 +209,17 @@ public class Reimbursement {
 				+ ", resolver_fk=" + resolver_fk + ", status_id_fk=" + status_id_fk + ", type_id_fk=" + type_id_fk
 				+ "]";
 	}
+
+	public int getAction() {
+		return action;
+	}
+
+	public void setAction(int action) {
+		this.action = action;
+	}
 	
 	
 
-//	public int getCurUserRole() {
-//		return curUserRole;
-//	}
-//
-//	public void setCurUserRole(int curUserRole) {
-//		this.curUserRole = curUserRole;
-//	}
-//
-//	
+
 	
 }
