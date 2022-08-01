@@ -20,6 +20,8 @@ public class ReimbController {
 		
 		Reimbursement newReimb = gson.fromJson(body, Reimbursement.class);
 		
+		System.out.println(newReimb);
+		
 		if (reDAO.insertReimbursement(newReimb)) {
 			
 			ctx.status(202);
@@ -213,7 +215,8 @@ public class ReimbController {
 		if (AuthController.ses != null) {
 			
 			Object userRole = AuthController.ses.getAttribute("userRole");
-			
+			Object userId = AuthController.ses.getAttribute("userId");
+
 //			System.out.println(userRole);
 //			System.out.println(userId);
 			
@@ -233,8 +236,26 @@ public class ReimbController {
 
 			} else {
 				
-			
-				ctx.status(406);
+				System.out.println("employee");
+				
+				Integer author = Integer.parseInt(userId.toString());
+				
+				ArrayList<Reimbursement> auth_reimb = reDAO.getReimbursementsByAuthor(author);
+				
+				Gson gson = new Gson();
+				
+				String JSONAuthReimb = gson.toJson(auth_reimb);
+				
+				ctx.result(JSONAuthReimb);
+				
+				if (reDAO.getReimbursementsByAuthor(author) != null) {
+					
+					ctx.status(202);
+				
+				} else {
+					
+					ctx.status(401);
+				}
 			
 			}
 		}

@@ -21,26 +21,29 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "insert into reimbursements (amount, sumitted, resolved, description, recipt, author, resolver, status, type)" +
-						"values (?,?,?,?,?,?,?,?,?)";
+			Object userId = AuthController.ses.getAttribute("userId");
+			
+			Integer author = Integer.parseInt(userId.toString());
+			
+			
+			String sql = "insert into reimbursements (amount, description, author, type_fk)" +
+						"values (?,?,?,?)";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setInt(1, reimbursement.getAmount());
-			ps.setTimestamp(2, reimbursement.getSubmitted());
-			ps.setTimestamp(3, reimbursement.getResolved());
-			ps.setString(4, reimbursement.getDescription());
-			ps.setBinaryStream(5, reimbursement.getReceipt());
-			ps.setInt(6, reimbursement.getAuthor().getUser_id());
-			ps.setInt(7, reimbursement.getResolver().getUser_id());
-			ps.setInt(8, reimbursement.getStatus().getStatus_id());
-			ps.setInt(9, reimbursement.getType().getType_id());
+			ps.setString(2, reimbursement.getDescription());
+			ps.setInt(3, author);
+			ps.setInt(4, reimbursement.getType_id_fk());
 			
 			ps.executeUpdate();
+			
+			System.out.println("test pass");
 			
 			return true;
 			
 		} catch (SQLException e) {
+			System.out.println("test fail");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -212,9 +215,9 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 						
 					}
 					
-					Object userRole = AuthController.ses.getAttribute("userRole");
-					
-					System.out.println("jshdkjashd");
+//					Object userRole = AuthController.ses.getAttribute("userRole");
+//					
+//					System.out.println("jshdkjashd");
 					return reimbList;
 					
 					
@@ -231,13 +234,12 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 		
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "update reimbursements set resolved = ?, resolver = ?, status_fk = 2 where reimb_id = ?";
+			String sql = "update reimbursements set resolved = ?, status_fk = 2 where reimb_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setTimestamp(1, reimbursement.getResolved());
-			ps.setInt(2, reimbursement.getResolver().getUser_id());
-			ps.setInt(4, reimbursement.getReimb_id());
+			ps.setInt(2, reimbursement.getReimb_id());
 			
 			ps.executeUpdate();
 			
@@ -257,13 +259,12 @@ public class ReimbursementDAO implements ReimbursementDAOInterface {
 
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
-			String sql = "update reimbursements set resolved = ?, resolver = ?, status_fk = 3 where reimb_id = ?";
+			String sql = "update reimbursements set resolved = ?, status_fk = 3 where reimb_id = ?";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
 			ps.setTimestamp(1, reimbursement.getResolved());
-			ps.setInt(2, reimbursement.getResolver().getUser_id());
-			ps.setInt(4, reimbursement.getReimb_id());
+			ps.setInt(2, reimbursement.getReimb_id());
 			
 			ps.executeUpdate();
 			

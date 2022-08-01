@@ -2,6 +2,9 @@ package com.revature.controllers;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.revature.models.LoginDTO;
 import com.revature.models.User;
@@ -11,6 +14,8 @@ import io.javalin.http.Handler;
 
 public class AuthController {
 
+	public static Logger log = LogManager.getLogger();
+	
 	AuthService as = new AuthService();
 	
 	public static HttpSession ses;
@@ -29,7 +34,7 @@ public class AuthController {
 		if (user != null) {
 			
 //			System.out.println(ctx.req);
-			
+			log.info("User Logged in!");
 			ses = ctx.req.getSession();
 			
 //			System.out.println(ses);
@@ -44,7 +49,7 @@ public class AuthController {
 
 		} else {
 			
-			ctx.result("User Failed to login!");
+			log.warn("User Failed to login!");
 			ctx.status(401);
 		}
 		

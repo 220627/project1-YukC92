@@ -1,0 +1,1 @@
+2022-07-31 23:30:48 INFO  AuthController:37 - User Logged in!

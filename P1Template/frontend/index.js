@@ -3,12 +3,47 @@ const url = "http://localhost:3000";
 document.getElementById("loginButton").onclick = loginFunction; //this button will return
 document.getElementById("filterReimbButton").onclick = getReimb;
 document.getElementById("getAllReimbBtn").onclick = getAllReimb;
+document.getElementById("submitBtn").onclick = insertReimb;
+
+
+async function insertReimb() {
+
+    let amount = document.getElementById('amount').value;
+    let description = document.getElementById('description').value;
+    let type = document.getElementById('type').value;
+    let typeObj = parseInt(type);
+    console.log(typeof(typeObj))
+
+    let reimbDTO = {
+        amount: amount,
+        description: description,
+        type_id_fk: typeObj
+    };
+
+    let response = await fetch(url + "/reimbursements", {
+        method: 'POST',
+        body: JSON.stringify(reimbDTO)
+    }) 
+
+     if (response.status === 202) {
+
+        document.getElementById("insertReimRow").innerText = "It has been added to your List.";
+
+    } else {
+
+        document.getElementById("insertReimRow").innerText = "Something went wrong"
+        document.getElementById("insertReimRow").style.color = "red";
+
+    }
+
+}
+
 
 async function loginFunction() {
 
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
-
+    
     let userCreds = {
         username: user,
         password: pass
@@ -83,32 +118,28 @@ async function getAllReimb() {
             row.appendChild(cell6);
 
             let cell7 = document.createElement("td")
-            cell7.innerHTML = reimbursement.resolver.username;
+            cell7.innerHTML = reimbursement.status.status;
             row.appendChild(cell7);
 
             let cell8 = document.createElement("td")
-            cell8.innerHTML = reimbursement.status.status;
+            cell8.innerHTML = reimbursement.type.type;
             row.appendChild(cell8);
 
-            let cell9 = document.createElement("td")
-            cell9.innerHTML = reimbursement.type.type;
-            row.appendChild(cell9);
-
             if (reimbursement.action == 1 && reimbursement.status.status_id == 1) {
-                let cell10 = document.createElement("td");
+                let cell9 = document.createElement("td");
                 let approveBtn = document.createElement("button");
                 approveBtn.setAttribute('id', 'approve');
                 approveBtn.innerHTML = 'Approve';
                 approveBtn.onclick = approve;
                 approveBtn.setAttribute('reimb_id', reimbursement.reimb_id);
-                cell10.appendChild(approveBtn);
+                cell9.appendChild(approveBtn);
                 let denyBtn = document.createElement("button");
                 denyBtn.setAttribute('id', 'deny');
                 denyBtn.innerHTML = 'Deny';
                 denyBtn.onclick = deny;
                 denyBtn.setAttribute('reimb_id', reimbursement.reimb_id);
-                cell10.appendChild(denyBtn);
-                row.appendChild(cell10);
+                cell9.appendChild(denyBtn);
+                row.appendChild(cell9);
             }
 
             document.getElementById("reimbBody").appendChild(row);
@@ -116,7 +147,7 @@ async function getAllReimb() {
         }
 
     } else {
-        alert("Sorry! For manager only!")
+        alert("something went wrong!")
     }   
 }
 
@@ -165,32 +196,28 @@ async function getReimb() {
             row.appendChild(cell6);
 
             let cell7 = document.createElement("td")
-            cell7.innerHTML = reimbursement.resolver.username;
+            cell7.innerHTML = reimbursement.status.status;
             row.appendChild(cell7);
 
             let cell8 = document.createElement("td")
-            cell8.innerHTML = reimbursement.status.status;
+            cell8.innerHTML = reimbursement.type.type;
             row.appendChild(cell8);
 
-            let cell9 = document.createElement("td")
-            cell9.innerHTML = reimbursement.type.type;
-            row.appendChild(cell9);
-
             if (reimbursement.action == 1 && reimbursement.status.status_id == 1) {
-                let cell10 = document.createElement("td");
+                let cell9 = document.createElement("td");
                 let approveBtn = document.createElement("button");
                 approveBtn.setAttribute('id', 'approve');
                 approveBtn.innerHTML = 'Approve';
                 approveBtn.onclick = approve;
                 approveBtn.setAttribute('reimb_id', reimbursement.reimb_id);
-                cell10.appendChild(approveBtn);
+                cell9.appendChild(approveBtn);
                 let denyBtn = document.createElement("button");
                 denyBtn.setAttribute('id', 'deny');
                 denyBtn.innerHTML = 'Deny';
                 denyBtn.onclick = deny;
                 denyBtn.setAttribute('reimb_id', reimbursement.reimb_id);
-                cell10.appendChild(denyBtn);
-                row.appendChild(cell10);
+                cell9.appendChild(denyBtn);
+                row.appendChild(cell9);
             }
 
 
@@ -207,16 +234,23 @@ async function approve(el) {
 
     var buttons = el.target.parentElement.getElementsByTagName('button');
 
+    let date = new Date();
+    let reimbDTO = {
+        revolved: date,
+        reimb_id: el.target.getAttribute("reimb_id")
+    }
+
+    console.log(reimbDTO)
+
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].setAttribute('disabled', 'disabled');
     }
 
-    let reimb_id = el.target.getAttribute('reimb_id');
+    let reimbId = el.target.getAttribute('reimb_id');
     
-    let response = await fetch(url + "/reimbursements/" + reimb_id + "/approve", {
+    let response = await fetch(url + "/reimbursements/" + reimbId + "/approve", {
         method: "PUT",
-        body: JSON.stringify(userCreds),
-        credentials: "include"
+        body: JSON.stringify(reimbDTO),
     })
 }
 
@@ -224,9 +258,14 @@ async function deny(el) {
     el.target.setAttribute('disabled', 'disabled');
     let reimb_id = el.target.getAttribute('reimb_id');
     
+    let date = new Date();
+    let reimbDTO = {
+        revolved: date,
+        reimb_id: el.target.getAttribute("reimb_id")
+    }
+
     let response = await fetch(url + "/reimbursements/" + reimb_id + "/deny", {
         method: "PUT",
-        body: JSON.stringify(userCreds),
-        credentials: "include"
+        body: JSON.stringify(reimbDTO),
     })
 }

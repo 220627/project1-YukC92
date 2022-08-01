@@ -23,6 +23,16 @@ public class Reimbursement {
 	private int status_id_fk;
 	private int type_id_fk;
 	
+	
+	
+	public Reimbursement(int reimb_id, int amount, String description, int author_fk, int type_id_fk) {
+		super();
+		this.reimb_id = reimb_id;
+		this.amount = amount;
+		this.description = description;
+		this.author_fk = author_fk;
+		this.type_id_fk = type_id_fk;
+	}
 
 	public Reimbursement() {
 		super();
@@ -201,13 +211,14 @@ public class Reimbursement {
 		this.type_id_fk = type_id_fk;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Reimbursement [reimb_id=" + reimb_id + ", amount=" + amount + ", submitted=" + submitted + ", resolved="
 				+ resolved + ", description=" + description + ", receipt=" + receipt + ", author=" + author
-				+ ", resolver=" + resolver + ", status=" + status + ", type=" + type + ", author_fk=" + author_fk
-				+ ", resolver_fk=" + resolver_fk + ", status_id_fk=" + status_id_fk + ", type_id_fk=" + type_id_fk
-				+ "]";
+				+ ", resolver=" + resolver + ", status=" + status + ", type=" + type + ", action=" + action
+				+ ", author_fk=" + author_fk + ", resolver_fk=" + resolver_fk + ", status_id_fk=" + status_id_fk
+				+ ", type_id_fk=" + type_id_fk + "]";
 	}
 
 	public int getAction() {
